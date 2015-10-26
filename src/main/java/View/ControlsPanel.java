@@ -27,11 +27,11 @@ public class ControlsPanel extends JPanel {
         slider1.addChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent ce) {
                 System.out.println(slider1.getValue());
-                if(slider1.getValue()<50)
+                if(slider1.getValue()==0)
 
                     // Lancement UP
                     System.out.println("ON UP");
-                else{
+                else if(slider1.getValue()==100){
 
                     // Lancement DOWN
                     System.out.println("ON BAISSE");

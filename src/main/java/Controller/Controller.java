@@ -1,5 +1,6 @@
 package Controller;
 
+import Model.Gear;
 import Model.GearSet;
 import View.view1;
 
@@ -15,4 +16,10 @@ public Controller(){
     gearSet = new GearSet();
     glc = new view1();
 }
+
+    public GearSet getGear()
+    {
+        return this.gearSet;
+    }
+
 }
