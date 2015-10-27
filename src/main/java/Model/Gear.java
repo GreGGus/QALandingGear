@@ -45,6 +45,11 @@ public class Gear extends Observable {
 
     public void startThreadGear(){
         //Test sur le status, puis appelle de la fonction UP ou DOWN.
+        if(this.getStatus()==Status.up)
+            this.DownGear();
+        if(this.getStatus()==Status.down)
+            this.UpGear();
+
     }
 
     public Status stickAction(Status status){
@@ -60,7 +65,8 @@ public class Gear extends Observable {
         // Timer
         Timer timer= new Timer();
         // Move stick to top, so the status is "goUp"
-        stickAction(Status.up);
+        //stickAction(Status.up);
+        setStatus(Status.goUp);
         // new task timer .
         timer.schedule(new TimerTask(){
             public void run()
@@ -91,6 +97,8 @@ public class Gear extends Observable {
         // On ferme les portes.
 
         //TODO Attention la porte n'est pas fermé.
+        //close gate
+        this.door.setOpen(false);
 
     }
 
@@ -104,7 +112,9 @@ public class Gear extends Observable {
         timer.schedule(new TimerTask(){
             public void run(){
                 // We're going down
-                stickAction(Status.down);
+                //stickAction(Status.down);
+                setStatus(Status.goDown);
+
                 Timer timer2 = new Timer();
                 timer2.schedule(new TimerTask(){
                     public void run() {
@@ -116,8 +126,6 @@ public class Gear extends Observable {
             }
 
         },250);
-        //close gate
-        this.door.setOpen(false);
 
     }
 

@@ -9,17 +9,24 @@ import View.view1;
  */
 public class Controller {
     private GearSet gearSet;
+    private Gear gearTest;
   //  private Sensors sensorSet;
     private view1 glc;
 
 public Controller(){
-    gearSet = new GearSet();
-    glc = new view1();
+
+    gearTest=new Gear(Gear.Status.down);
+    glc = new view1(this);
 }
 
     public GearSet getGear()
     {
         return this.gearSet;
+    }
+
+    public Gear getGearTest()
+    {
+        return this.gearTest;
     }
 
 }
