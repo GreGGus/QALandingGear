@@ -11,7 +11,7 @@ import java.util.TimerTask;
 public class Gear extends Observable {
 
     private Door door;
-    public  enum Status{blocked,down,goDown,open,up,goUp, doorOpen, doorClose}
+    public  enum Status{blocked,down,goDown,open,up,goUp, doorOpen}
     private Status status;
 
 
@@ -24,6 +24,8 @@ public class Gear extends Observable {
     public Gear(){
         door=new Door();
     }
+
+
     //
     public void setStatus(Status status){
         this.status=status;
@@ -60,6 +62,9 @@ public class Gear extends Observable {
         return status;
 
     }
+
+    // blocked,down,goDown,open,up,goUp, doorOpen, doorClose}
+    // doorOpen -> goUP
 
     public void UpGear(){
         // Timer
