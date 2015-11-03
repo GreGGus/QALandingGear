@@ -2,14 +2,25 @@ package View;
 
 import Controller.Controller;
 
+import java.applet.Applet;
+
 /**
- * Created by Grégoire on 26/10/2015.
+ * Created by Grï¿½goire on 26/10/2015.
  */
-public class Main {
+public class Main   {
 
 
     public static void main (String[] args){
-        Controller controller = new Controller();
+        //Interface.launch(Interface.class);
+        //Interface.launch(args);
+       // Controller controller = new Controller();
+        launchInterface();
     }
 
+    public static void launchInterface()
+    {
+        Interface.launch(Interface.class);
     }
+
+
+}

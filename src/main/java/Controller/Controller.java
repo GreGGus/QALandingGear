@@ -2,23 +2,37 @@ package Controller;
 
 import Model.Gear;
 import Model.GearSet;
-import View.view1;
+import View.*;
+import javafx.application.Application;
 
 /**
- * Created by Grégoire on 21/10/2015.
+ * Created by Grï¿½goire on 21/10/2015.
  */
 public class Controller {
+
     private GearSet gearSet;
-  //  private Sensors sensorSet;
+    private Gear gearTest;
     private view1 glc;
+    private Interface viewTest;
 
 public Controller(){
-    gearSet = new GearSet();
-    glc = new view1();
+
+    gearTest=new Gear(Gear.Status.down);
+    gearSet=new GearSet();
+   // launchInterface();
 }
 
-    public GearSet getGear()
+    public void launchInterface()
     {
+        Interface.launch(Interface.class);
+    }
+
+    public Gear getGearTest()
+    {
+        return this.gearTest;
+    }
+
+    public GearSet getGearSet(){
         return this.gearSet;
     }
 
