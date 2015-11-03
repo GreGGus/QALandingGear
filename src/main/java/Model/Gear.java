@@ -3,15 +3,16 @@ package Model;
 import java.util.Observable;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.Observable;
 
 
 /**
- * Created by Grégoire on 21/10/2015.
+ * Created by Grï¿½goire on 21/10/2015.
  */
 public class Gear extends Observable {
 
     private Door door;
-    public  enum Status{blocked,down,goDown,open,up,goUp, doorOpen}
+    public  enum Status{blocked,down,goDown,doorClose,up,goUp, doorOpen,doorMoving,doorMovingDown,doorMovingUp}
     private Status status;
 
 
@@ -29,8 +30,8 @@ public class Gear extends Observable {
     //
     public void setStatus(Status status){
         this.status=status;
-        // setChanged();
-        // notifyObservers();
+        setChanged();
+        notifyObservers();
     }
 
     public Status getStatus(){
@@ -68,30 +69,47 @@ public class Gear extends Observable {
 
     public void UpGear(){
         // Timer
-        Timer timer= new Timer();
         // Move stick to top, so the status is "goUp"
         //stickAction(Status.up);
-        setStatus(Status.goUp);
+        setStatus(Status.doorMoving);
         // new task timer .
-        timer.schedule(new TimerTask(){
+        Timer timer3 = new Timer();
+        timer3.schedule(new TimerTask(){
             public void run()
             {
-                // Door open after few times
-                door.setOpen(true);
-                // general status to doorOpen
                 setStatus(Status.doorOpen);
-                // new timer for the gear
-                Timer timer2 = new Timer();
-                timer2.schedule( new TimerTask(){
+                setDoorOpen(true);
+                Timer timer= new Timer();
+                timer.schedule(new TimerTask(){
                     public void run()
                     {
-                        //Change general status to UP
-                        setStatus(Status.up);
+                        // Door open after few times
+                        // general status to doorOpen
+                        setStatus(Status.goUp);
+                        // new timer for the gear
+                        Timer timer2 = new Timer();
+                        timer2.schedule( new TimerTask(){
+                            public void run()
+                            {
+                                //Change general status to UP
+                                setStatus(Status.doorMovingUp);
+                                Timer timer4 = new Timer();
+                                timer4.schedule(new TimerTask(){
+                                    public void run()
+                                    {
+                                        setDoorOpen(false);
+                                        setStatus(Status.up);
+                                    }
+                                },1000);
+                            }
+                        },2500);
+
                     }
-                },250);
+                },1000);
 
             }
-        },100);
+        },1000);
+
 
         // Run la manivelle (status door open)
         // Timer encore
@@ -101,36 +119,55 @@ public class Gear extends Observable {
         // -> Les roues rentrent et c'est bon.
         // On ferme les portes.
 
-        //TODO Attention la porte n'est pas fermé.
+        //TODO Attention la porte n'est pas fermï¿½.
         //close gate
-        this.door.setOpen(false);
 
+
+    }
+
+    public void setDoorOpen(boolean val){
+        this.door.setOpen(val);
     }
 
     public void DownGear(){
 
         // Ouverture des portes
-        this.door.setOpen(true);
-        setStatus(Status.doorOpen);
-        // Timer
-        Timer timer = new Timer();
-        timer.schedule(new TimerTask(){
+        Timer timer3 = new Timer();
+        setStatus(Status.doorMoving);
+        timer3.schedule(new TimerTask(){
             public void run(){
-                // We're going down
-                //stickAction(Status.down);
-                setStatus(Status.goDown);
-
-                Timer timer2 = new Timer();
-                timer2.schedule(new TimerTask(){
+                setDoorOpen(true);
+                setStatus(Status.doorOpen);
+                // Timer
+                Timer timer = new Timer();
+                timer.schedule(new TimerTask(){
                     public void run() {
-                        // Set general status to down
-                        setStatus(Status.down);
+                        // We're going down
+                        //stickAction(Status.down);
+                        setStatus(Status.goDown);
+
+                        Timer timer2 = new Timer();
+                        timer2.schedule(new TimerTask() {
+                            public void run() {
+                                // Set general status to down
+                                setStatus(Status.doorMovingDown);
+                                Timer timer4 = new Timer();
+                                timer4.schedule(new TimerTask() {
+                                    public void run() {
+                                        setDoorOpen(false);
+                                        setStatus(Status.down);
+
+                                    }
+                                }, 1000);
+                            }
+                        }, 2000);
+
                     }
-                },200);
 
+                },2500);
             }
+        },1000);
 
-        },250);
 
     }
 

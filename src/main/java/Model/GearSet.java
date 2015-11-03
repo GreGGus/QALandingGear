@@ -1,13 +1,17 @@
 package Model;
 
+import java.util.ArrayList;
 import java.util.List;
 import Model.Gear.Status;
+import View.Interface;
+
 import java.lang.Thread;
+import java.util.Observable;
 
 /**
- * Created by Grégoire on 21/10/2015.
+ * Created by Grï¿½goire on 21/10/2015.
  */
-public class GearSet {
+public class GearSet extends Observable {
 
 
     private Gear gearOne;
@@ -17,10 +21,10 @@ public class GearSet {
     private Status GearSetStatus;
 
     public GearSet(){
-        gearOne = new Gear();
-        gearTwo = new Gear();
-        gearThree=new Gear();
-
+        gearOne = new Gear(Status.up);
+        gearTwo = new Gear(Status.up);
+        gearThree=new Gear(Status.up);
+        GearList = new ArrayList<Gear>();
         GearList.add(gearOne);
         GearList.add(gearTwo);
         GearList.add(gearThree);
@@ -47,22 +51,50 @@ public class GearSet {
         else return Status.blocked;
     }
 
+    public Gear getGearOne() {
+        return gearOne;
+    }
+
+    public Gear getGearTwo() {
+        return gearTwo;
+    }
+
+    public Gear getGearThree() {
+        return gearThree;
+    }
+
     public void startAllGearThread(){
 
-        // On crée les Thread de chaque Gear
+        // On crï¿½e les Thread de chaque Gear
         Thread startOne = new Thread(new ThreadGear(gearOne));
         Thread startTwo = new Thread(new ThreadGear(gearTwo));
         Thread startThree = new Thread(new ThreadGear(gearThree));
 
-        // Check si on peux les démarer
+        // Check si on peux les dï¿½marer
         if(getGearSetStatus()==Status.up)
         {
-            // Appelle la fonction activé Thread qui lance la fonction goUP ou goDown
+            // Appelle la fonction activï¿½ Thread qui lance la fonction goUP ou goDown
             startOne.start();
             startTwo.start();
             startThree.start();
         }
+        if(getGearSetStatus()==Status.down)
+        {
+            startOne.start();
+            startTwo.start();
+            startThree.start();
+        }
+
+        setGearSetStatus(getGearSetStatus());
+        setChanged();
+        notifyObservers();
+
     }
+
+    public void setGearSetStatus(Status status){
+        this.GearSetStatus = status;
+    }
+
 
 
 
