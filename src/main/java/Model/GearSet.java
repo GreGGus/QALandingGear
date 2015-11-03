@@ -30,7 +30,7 @@ public class GearSet extends Observable {
         GearList.add(gearThree);
     }
 
-    // get Plane Status
+    // get Plane Status UP DOWN OR BLOCKED
     public Status getGearSetStatus(){
         if(GearList.get(0).getStatus() == Status.up &&
                 GearList.get(1).getStatus() == Status.up &&
@@ -40,14 +40,6 @@ public class GearSet extends Observable {
                 GearList.get(1).getStatus() == Status.down &&
                 GearList.get(2).getStatus() == Status.down)
             return Status.down;
-        else if (GearList.get(0).getStatus() == Status.goDown &&
-                GearList.get(1).getStatus() == Status.goDown &&
-                GearList.get(2).getStatus() == Status.goDown)
-            return Status.goDown;
-        else if (GearList.get(0).getStatus() == Status.goUp &&
-                GearList.get(1).getStatus() == Status.goUp &&
-                GearList.get(2).getStatus() == Status.goUp)
-            return Status.goUp;
         else return Status.blocked;
     }
 

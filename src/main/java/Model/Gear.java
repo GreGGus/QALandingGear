@@ -4,7 +4,7 @@ import java.util.Observable;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.Observable;
-
+import java.util.Random;
 
 /**
  * Created by Gr�goire on 21/10/2015.
@@ -19,6 +19,7 @@ public class Gear extends Observable {
 
     public Gear(Status status){
         door = new Door();
+        door.setOpen(false);
         this.setStatus(status);
     }
 
@@ -71,6 +72,8 @@ public class Gear extends Observable {
         // Timer
         // Move stick to top, so the status is "goUp"
         //stickAction(Status.up);
+        // random ici
+        //
         setStatus(Status.doorMoving);
         // new task timer .
         Timer timer3 = new Timer();
@@ -97,7 +100,15 @@ public class Gear extends Observable {
                                 timer4.schedule(new TimerTask(){
                                     public void run()
                                     {
-                                        setDoorOpen(false);
+
+                                        // random pour raté la fermeture de la porte
+                                        Random rand = new Random();
+                                        int random= rand.nextInt(6);
+                                        if(random==3) {
+                                            setDoorOpen(true);
+                                        }else{
+                                            setDoorOpen(false);
+                                        }
                                         setStatus(Status.up);
                                     }
                                 },1000);
@@ -154,7 +165,13 @@ public class Gear extends Observable {
                                 Timer timer4 = new Timer();
                                 timer4.schedule(new TimerTask() {
                                     public void run() {
-                                        setDoorOpen(false);
+                                        Random rand = new Random();
+                                        int random= rand.nextInt(6);
+                                        if(random==3) {
+                                            setDoorOpen(true);
+                                        }else{
+                                            setDoorOpen(false);
+                                        }
                                         setStatus(Status.down);
 
                                     }

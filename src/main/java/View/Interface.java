@@ -249,8 +249,7 @@ public class Interface extends Application implements Observer {
     public void update(Observable arg0, Object arg1) {
         if (arg0 == controller.getGearSet().getGearOne()) {
 
-            System.out.println("Gear One :" + controller.getGearSet().getGearOne().getStatus());
-            System.out.println("Gear One Door :"+controller.getGearSet().getGearOne().getDoor().isOpen());
+                System.out.println("GearSet Status : :" + controller.getGearSet().getGearSetStatus());
 
             // Test si le status du gearOne est UP et si la porte est fermé
             if(controller.getGearSet().getGearOne().getStatus()== Gear.Status.up && controller.getGearSet().getGearOne().getDoor().isOpen()==false)
@@ -307,42 +306,120 @@ public class Interface extends Application implements Observer {
 
 
         }
-        if (arg0 == controller.getGearSet().getGearTwo()) {
-            System.out.println("Gear Two :" + controller.getGearSet().getGearOne().getStatus());
 
-            if(controller.getGearSet().getGearTwo().getStatus()== Gear.Status.up)
+
+
+        // GEAR TWO
+
+
+
+
+        if (arg0 == controller.getGearSet().getGearTwo()) {
+            if(controller.getGearSet().getGearTwo().getStatus()== Gear.Status.up && controller.getGearSet().getGearTwo().getDoor().isOpen()==false)
             {
+                // Set images
                 LIGHT_VIEW2.setImage(EMPTY_LIGHT);
+                DOOR_VIEW2.setImage(CLOSED_DOOR);
+                GEAR_VIEW2.setImage(RETRACTED_GEAR);
             }
-            if(controller.getGearSet().getGearTwo().getStatus()== Gear.Status.goDown)
+            if(controller.getGearSet().getGearTwo().getStatus()== Gear.Status.goDown && controller.getGearSet().getGearTwo().getDoor().isOpen()==true)
             {
                 LIGHT_VIEW2.setImage(ORANGE_LIGHT);
+                GEAR_VIEW2.setImage(MOVING_GEAR);
+
             }
-            if(controller.getGearSet().getGearTwo().getStatus()== Gear.Status.goUp)
+            if(controller.getGearSet().getGearTwo().getStatus()== Gear.Status.doorMoving && controller.getGearSet().getGearTwo().getDoor().isOpen()==false)
             {
                 LIGHT_VIEW2.setImage(ORANGE_LIGHT);
+                DOOR_VIEW2.setImage(MOVING_DOOR);
+
             }
-            if(controller.getGearSet().getGearTwo().getStatus()== Gear.Status.down)
+            if(controller.getGearSet().getGearTwo().getStatus()== Gear.Status.goUp && controller.getGearSet().getGearTwo().getDoor().isOpen()==true)
+            {
+                LIGHT_VIEW2.setImage(ORANGE_LIGHT);
+                GEAR_VIEW2.setImage(MOVING_GEAR);
+
+            }if(controller.getGearSet().getGearTwo().getStatus()== Gear.Status.doorMovingDown  && controller.getGearSet().getGearTwo().getDoor().isOpen()==true)
+            {
+                LIGHT_VIEW2.setImage(ORANGE_LIGHT);
+                DOOR_VIEW2.setImage(MOVING_DOOR);
+                GEAR_VIEW2.setImage(EXTRACTED_GEAR);
+
+            }
+            if(controller.getGearSet().getGearTwo().getStatus()== Gear.Status.doorMovingUp  && controller.getGearSet().getGearTwo().getDoor().isOpen()==true)
+            {
+                LIGHT_VIEW2.setImage(ORANGE_LIGHT);
+                DOOR_VIEW2.setImage(MOVING_DOOR);
+                GEAR_VIEW2.setImage(RETRACTED_GEAR);
+
+            }
+            if(controller.getGearSet().getGearTwo().getStatus()== Gear.Status.down  && controller.getGearSet().getGearTwo().getDoor().isOpen()==false)
             {
                 LIGHT_VIEW2.setImage(GREEN_LIGHT);
+                DOOR_VIEW2.setImage(CLOSED_DOOR);
+                GEAR_VIEW2.setImage(EXTRACTED_GEAR);
+
+
+            }
+            if(controller.getGearSet().getGearTwo().getStatus()==Gear.Status.doorOpen)
+            {
+                DOOR_VIEW2.setImage(OPEN_DOOR);
+
             }
         }
         if (arg0 == controller.getGearSet().getGearThree()) {
-            System.out.println("Gear Three :" + controller.getGearSet().getGearOne().getStatus());
-
-            if (controller.getGearSet().getGearThree().getStatus() == Gear.Status.up) {
+            System.out.println("two here");
+            if(controller.getGearSet().getGearThree().getStatus()== Gear.Status.up && controller.getGearSet().getGearThree().getDoor().isOpen()==false)
+            {
+                // Set images
                 LIGHT_VIEW3.setImage(EMPTY_LIGHT);
+                DOOR_VIEW3.setImage(CLOSED_DOOR);
+                GEAR_VIEW3.setImage(RETRACTED_GEAR);
             }
-            if (controller.getGearSet().getGearThree().getStatus() == Gear.Status.goDown) {
+            if(controller.getGearSet().getGearThree().getStatus()== Gear.Status.goDown && controller.getGearSet().getGearThree().getDoor().isOpen()==true)
+            {
                 LIGHT_VIEW3.setImage(ORANGE_LIGHT);
-            }
-            if (controller.getGearSet().getGearThree().getStatus() == Gear.Status.goUp) {
-                LIGHT_VIEW3.setImage(ORANGE_LIGHT);
-            }
-            if (controller.getGearSet().getGearThree().getStatus() == Gear.Status.down) {
-                LIGHT_VIEW3.setImage(GREEN_LIGHT);
-            }
+                GEAR_VIEW3.setImage(MOVING_GEAR);
 
+            }
+            if(controller.getGearSet().getGearThree().getStatus()== Gear.Status.doorMoving && controller.getGearSet().getGearThree().getDoor().isOpen()==false)
+            {
+                LIGHT_VIEW3.setImage(ORANGE_LIGHT);
+                DOOR_VIEW3.setImage(MOVING_DOOR);
+
+            }
+            if(controller.getGearSet().getGearThree().getStatus()== Gear.Status.goUp && controller.getGearSet().getGearThree().getDoor().isOpen()==true)
+            {
+                LIGHT_VIEW3.setImage(ORANGE_LIGHT);
+                GEAR_VIEW3.setImage(MOVING_GEAR);
+
+            }if(controller.getGearSet().getGearThree().getStatus()== Gear.Status.doorMovingDown  && controller.getGearSet().getGearThree().getDoor().isOpen()==true)
+            {
+                LIGHT_VIEW3.setImage(ORANGE_LIGHT);
+                DOOR_VIEW3.setImage(MOVING_DOOR);
+                GEAR_VIEW3.setImage(EXTRACTED_GEAR);
+
+            }
+            if(controller.getGearSet().getGearThree().getStatus()== Gear.Status.doorMovingUp  && controller.getGearSet().getGearThree().getDoor().isOpen()==true)
+            {
+                LIGHT_VIEW3.setImage(ORANGE_LIGHT);
+                DOOR_VIEW3.setImage(MOVING_DOOR);
+                GEAR_VIEW3.setImage(RETRACTED_GEAR);
+
+            }
+            if(controller.getGearSet().getGearThree().getStatus()== Gear.Status.down  && controller.getGearSet().getGearThree().getDoor().isOpen()==false)
+            {
+                LIGHT_VIEW3.setImage(GREEN_LIGHT);
+                DOOR_VIEW3.setImage(CLOSED_DOOR);
+                GEAR_VIEW3.setImage(EXTRACTED_GEAR);
+
+
+            }
+            if(controller.getGearSet().getGearThree().getStatus()==Gear.Status.doorOpen)
+            {
+                DOOR_VIEW3.setImage(OPEN_DOOR);
+
+            }
         }
 
     }

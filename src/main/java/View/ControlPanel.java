@@ -5,7 +5,7 @@ import Model.GearSet;
 import javax.swing.*;
 
 /**
- * Created by Grégoire on 21/10/2015.
+ * Created by Grï¿½goire on 21/10/2015.
  */
 public class ControlPanel extends JPanel {
 
