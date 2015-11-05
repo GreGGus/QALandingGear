@@ -3,14 +3,13 @@ package Model;
 import java.util.*;
 
 import Model.Gear.Status;
-import View.Interface;
-import java.util.Timer;
+
 
 
 import java.lang.Thread;
 
 /**
- * Created by Gr�goire on 21/10/2015.
+ * Created by Gregoire on 21/10/2015.
  */
 public class GearSet extends Observable {
 
@@ -21,6 +20,10 @@ public class GearSet extends Observable {
     private List<Gear> GearList;
     private Status GearSetStatus;
 
+    /**
+     * Constructeur GearSet
+     * Création d'une liste de Gear
+     */
     public GearSet(){
         this.setGearSetStatus(Status.up);
         gearOne = new Gear(Status.up);
@@ -32,7 +35,10 @@ public class GearSet extends Observable {
         GearList.add(gearThree);
     }
 
-    // get Plane Status UP DOWN OR BLOCKED
+    /**
+     * Obtention du status général du gearSet qui prends en compte les status des 3 gears.
+     * @return status Le status général du gearSet
+     */
     public Status getGearSetStatus(){
         if(GearList.get(0).getStatus() == Status.up &&
                 GearList.get(1).getStatus() == Status.up &&
@@ -81,19 +87,34 @@ public class GearSet extends Observable {
 
 
     }
-
+    /**
+     * Obtention du gear ONE
+     * @return gearOne
+     */
     public Gear getGearOne() {
         return gearOne;
     }
 
+    /**
+     * Obtention du gear Two
+     * @return gearTwo
+     */
     public Gear getGearTwo() {
         return gearTwo;
     }
 
+    /**
+     * Obtention du gear Three
+     * @return gearThree
+     */
     public Gear getGearThree() {
         return gearThree;
     }
 
+    /**
+     * Démarrage des threads. Verification du status global pour pouvoir UP ou DOWN
+     *
+     */
     public void startAllGearThread(){
 
         // On cr�e les Thread de chaque Gear
@@ -122,6 +143,9 @@ public class GearSet extends Observable {
 
     }
 
+    /**
+     * Modification du status général
+     */
     public void setGearSetStatus(Status status){
         this.GearSetStatus = status;
     }

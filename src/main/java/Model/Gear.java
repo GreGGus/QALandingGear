@@ -17,6 +17,11 @@ public class Gear extends Observable {
 
 
 
+    /**
+     * Constructeur Gear
+     * @param status   Status initial du gear
+     *
+     */
     public Gear(Status status){
         door = new Door();
         door.setOpen(false);
@@ -28,17 +33,27 @@ public class Gear extends Observable {
     }
 
 
-
+    /**
+     * Set le status d'un gear. Notifie l'interface lors d'un changement d'état
+     * @param status   Status à modifier
+     */
     public void setStatus(Status status){
         this.status=status;
         setChanged();
         notifyObservers();
     }
-
+    /**
+     * Recupération du status d'un gear
+     * @return status Renvoie le status du gear
+     */
     public Status getStatus(){
         return this.status;
     }
 
+    /**
+     * Récupération d'une porte d'un gear
+     * @return door Renvoie la porte d'un gear
+     */
     public Door getDoor(){
         return this.door;
     }
@@ -47,6 +62,9 @@ public class Gear extends Observable {
         this.door=door;
     }
 
+    /**
+     * Lance le déplacement du gear. Si le status est UP, on va down. Si le status est DOWN, on va UP.
+     */
     public void startThreadGear(){
         //Test sur le status, puis appelle de la fonction UP ou DOWN.
         if(this.getStatus()==Status.up)
@@ -58,7 +76,10 @@ public class Gear extends Observable {
 
 
 
-
+    /**
+     * Méthode pour monter le gear ( rétracter ).
+     * Differents status : doorMoving - doorOpen - goUp - doorMovingUp - up
+     */
     public void UpGear(){
         // Les portes s'ouvrent
         setStatus(Status.doorMoving);
@@ -84,15 +105,9 @@ public class Gear extends Observable {
                                 timer4.schedule(new TimerTask(){
                                     public void run()
                                     {
-
-                                       //  random pour raté la fermeture de la porte
-                                        Random rand = new Random();
-                                       int random= rand.nextInt(5);
-                                        if(random==3) {
-                                            setDoorOpen(true);
-                                        }else{
-                                            setDoorOpen(false);
-                                       }
+                                        setDoorOpen(false);
+                                        //  Une chance sur 6 que la porte ne se referme pas.
+                                        //  getRandomError();
                                         // Les gears sont rentrés et portes fermé.
                                        if(door.isOpen()==false) {
 
@@ -110,16 +125,38 @@ public class Gear extends Observable {
             }
         },1000);
 
-
-
     }
 
+    /**
+     * Création d'une erreur d'une chance sur six que la porte ne se referme pas apres mouvement du gear
+     */
+    public void getRandomError(){
+        Random rand = new Random();
+        int random = rand.nextInt(6);
+        if (random==1)
+        {
+            // On laisse la porte ouverte
+            door.setOpen(true);
+
+        }else
+        {
+            // On ferme la porte
+            door.setOpen(false);
+        }
+    }
+
+    /**
+     * Set le boolean pour s'avoir si la porte est ouverte ou pas.
+     */
     public void setDoorOpen(boolean val){
         this.door.setOpen(val);
     }
 
+    /**
+     * Méthode pour descendre le gear
+     * Differents status : doorMoving - doorOpen - goDown - doorMovingDown - down
+     */
     public void DownGear(){
-
         Timer timer3 = new Timer();
         // Les portes s'ouvrent
         setStatus(Status.doorMoving);
@@ -141,17 +178,11 @@ public class Gear extends Observable {
                                 Timer timer4 = new Timer();
                                 timer4.schedule(new TimerTask() {
                                     public void run() {
-                                     //    Random rand = new Random();
-                                     //   int random= rand.nextInt(10);
-                                     //   if(random==3) {
-                                     //       setDoorOpen(true);
-                                      //  }else{
+
                                             setDoorOpen(false);
-                                       // }
-                                        // Les gears sont sorties
-                                    //    if(door.isOpen()==false) {
+                                            // Erreur de fermeture de porte.
+                                            // getRandomError();
                                             setStatus(Status.down);
-                                      //  }else{setStatus(Status.blocked);}
                                     }
                                 }, 1000);
                             }

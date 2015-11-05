@@ -167,21 +167,8 @@ public class Interface extends Application implements Observer {
      */
 
     private void extractGear(ImageView lightView, ImageView doorView, ImageView gearView) {
-        // DOWN
             controller.getGearSet().startAllGearThread();
-            // controller.getGearTest().startThreadGear();
 
-       /*
-        setOrangeLight(lightView);
-        setMovingDoor(doorView);
-        setOpenDoor(doorView);
-        setMovingGear(gearView);
-        setExtractedGear(gearView);
-        //setMovingDoor(doorView);
-        setClosedDoor(doorView);
-        //setGreenLight(lightView);
-        setEmptyLight(lightView);
-    */
 
 
     }
@@ -195,25 +182,12 @@ public class Interface extends Application implements Observer {
      */
 
     private void retractGear(ImageView lightView, ImageView doorView, ImageView gearView) {
-        int i = 0;
-        //  System.out.println(controller.getGearSet().getGearSetStatus());
-        // System.out.println(controller.getGearSet().getGearOne().getStatus());
 
-        //UP
 
             controller.getGearSet().startAllGearThread();
-            // controller.getGearTest().startThreadGear();
 
 
-       /* setOrangeLight(lightView);
-        setMovingDoor(doorView);
-        setOpenDoor(doorView);
-        setMovingGear(gearView);
-        setRetractedGear(gearView);
-        setMovingDoor(doorView);
-        setClosedDoor(doorView);
-        setEmptyLight(lightView);
-    */
+
     }
 
     private void setEmptyLight(ImageView lightView) {
