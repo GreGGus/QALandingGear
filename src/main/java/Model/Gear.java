@@ -12,7 +12,7 @@ import java.util.Random;
 public class Gear extends Observable {
 
     private Door door;
-    public  enum Status{blocked,down,goDown,doorClose,up,goUp, doorOpen,doorMoving,doorMovingDown,doorMovingUp}
+    public  enum Status{blocked,down,goDown,doorClose,up,goUp, doorOpen,doorMoving,doorMovingDown,doorMovingUp,doorBlock}
     private Status status;
 
 
@@ -28,7 +28,7 @@ public class Gear extends Observable {
     }
 
 
-    //
+
     public void setStatus(Status status){
         this.status=status;
         setChanged();
@@ -56,60 +56,49 @@ public class Gear extends Observable {
 
     }
 
-    public Status stickAction(Status status){
-        if(status == Status.up)
-            setStatus(Status.goUp);
-        else if (status == Status.down)
-            setStatus(Status.goDown);
-        return status;
 
-    }
 
-    // blocked,down,goDown,open,up,goUp, doorOpen, doorClose}
-    // doorOpen -> goUP
 
     public void UpGear(){
-        // Timer
-        // Move stick to top, so the status is "goUp"
-        //stickAction(Status.up);
-        // random ici
-        //
+        // Les portes s'ouvrent
         setStatus(Status.doorMoving);
-        // new task timer .
         Timer timer3 = new Timer();
         timer3.schedule(new TimerTask(){
             public void run()
-            {
+            {   // Les portes sont ouvertes
                 setStatus(Status.doorOpen);
                 setDoorOpen(true);
                 Timer timer= new Timer();
                 timer.schedule(new TimerTask(){
                     public void run()
                     {
-                        // Door open after few times
-                        // general status to doorOpen
+                        // Les gear sont en train de monter
                         setStatus(Status.goUp);
-                        // new timer for the gear
                         Timer timer2 = new Timer();
                         timer2.schedule( new TimerTask(){
                             public void run()
                             {
-                                //Change general status to UP
+                                //Les portent se referment
                                 setStatus(Status.doorMovingUp);
                                 Timer timer4 = new Timer();
                                 timer4.schedule(new TimerTask(){
                                     public void run()
                                     {
 
-                                        // random pour raté la fermeture de la porte
+                                       //  random pour raté la fermeture de la porte
                                         Random rand = new Random();
-                                        int random= rand.nextInt(6);
+                                       int random= rand.nextInt(5);
                                         if(random==3) {
                                             setDoorOpen(true);
                                         }else{
                                             setDoorOpen(false);
-                                        }
-                                        setStatus(Status.up);
+                                       }
+                                        // Les gears sont rentrés et portes fermé.
+                                       if(door.isOpen()==false) {
+
+                                            setStatus(Status.up);
+                                        }else{setStatus(Status.blocked);}
+
                                     }
                                 },1000);
                             }
@@ -122,17 +111,6 @@ public class Gear extends Observable {
         },1000);
 
 
-        // Run la manivelle (status door open)
-        // Timer encore
-        // change status : UP pour le gear
-        // -> On appuie levier -> Is going UP
-        // -> On ouvre les portes
-        // -> Les roues rentrent et c'est bon.
-        // On ferme les portes.
-
-        //TODO Attention la porte n'est pas ferm�.
-        //close gate
-
 
     }
 
@@ -142,38 +120,38 @@ public class Gear extends Observable {
 
     public void DownGear(){
 
-        // Ouverture des portes
         Timer timer3 = new Timer();
+        // Les portes s'ouvrent
         setStatus(Status.doorMoving);
         timer3.schedule(new TimerTask(){
             public void run(){
+                // Les portes sont ouvertent
                 setDoorOpen(true);
                 setStatus(Status.doorOpen);
-                // Timer
                 Timer timer = new Timer();
                 timer.schedule(new TimerTask(){
                     public void run() {
-                        // We're going down
-                        //stickAction(Status.down);
+                        // Le gear goDown
                         setStatus(Status.goDown);
-
                         Timer timer2 = new Timer();
                         timer2.schedule(new TimerTask() {
                             public void run() {
-                                // Set general status to down
+                                // On remonte les portes pour les fermer
                                 setStatus(Status.doorMovingDown);
                                 Timer timer4 = new Timer();
                                 timer4.schedule(new TimerTask() {
                                     public void run() {
-                                        Random rand = new Random();
-                                        int random= rand.nextInt(6);
-                                        if(random==3) {
-                                            setDoorOpen(true);
-                                        }else{
+                                     //    Random rand = new Random();
+                                     //   int random= rand.nextInt(10);
+                                     //   if(random==3) {
+                                     //       setDoorOpen(true);
+                                      //  }else{
                                             setDoorOpen(false);
-                                        }
-                                        setStatus(Status.down);
-
+                                       // }
+                                        // Les gears sont sorties
+                                    //    if(door.isOpen()==false) {
+                                            setStatus(Status.down);
+                                      //  }else{setStatus(Status.blocked);}
                                     }
                                 }, 1000);
                             }
