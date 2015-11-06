@@ -1,15 +1,15 @@
 package Model;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+
 import Model.Gear.Status;
-import View.Interface;
+
+
 
 import java.lang.Thread;
-import java.util.Observable;
 
 /**
- * Created by Gr�goire on 21/10/2015.
+ * Created by Gregoire on 21/10/2015.
  */
 public class GearSet extends Observable {
 
@@ -20,7 +20,12 @@ public class GearSet extends Observable {
     private List<Gear> GearList;
     private Status GearSetStatus;
 
+    /**
+     * Constructeur GearSet
+     * Création d'une liste de Gear
+     */
     public GearSet(){
+        this.setGearSetStatus(Status.up);
         gearOne = new Gear(Status.up);
         gearTwo = new Gear(Status.up);
         gearThree=new Gear(Status.up);
@@ -30,7 +35,10 @@ public class GearSet extends Observable {
         GearList.add(gearThree);
     }
 
-    // get Plane Status
+    /**
+     * Obtention du status général du gearSet qui prends en compte les status des 3 gears.
+     * @return status Le status général du gearSet
+     */
     public Status getGearSetStatus(){
         if(GearList.get(0).getStatus() == Status.up &&
                 GearList.get(1).getStatus() == Status.up &&
@@ -40,29 +48,73 @@ public class GearSet extends Observable {
                 GearList.get(1).getStatus() == Status.down &&
                 GearList.get(2).getStatus() == Status.down)
             return Status.down;
-        else if (GearList.get(0).getStatus() == Status.goDown &&
-                GearList.get(1).getStatus() == Status.goDown &&
-                GearList.get(2).getStatus() == Status.goDown)
-            return Status.goDown;
-        else if (GearList.get(0).getStatus() == Status.goUp &&
-                GearList.get(1).getStatus() == Status.goUp &&
-                GearList.get(2).getStatus() == Status.goUp)
-            return Status.goUp;
-        else return Status.blocked;
-    }
+        else if (GearList.get(0).getStatus() == Status.doorMoving || GearList.get(0).getStatus() == Status.doorOpen &&
+                 GearList.get(1).getStatus() == Status.doorMoving || GearList.get(1).getStatus() == Status.doorOpen &&
+                GearList.get(2).getStatus() == Status.doorMoving || GearList.get(2).getStatus() == Status.doorOpen )
+            return Status.doorMoving;
+        else if (GearList.get(0).getStatus() == Status.doorMoving || GearList.get(0).getStatus() == Status.up &&
+                GearList.get(1).getStatus() == Status.doorMoving || GearList.get(1).getStatus() == Status.up &&
+                GearList.get(2).getStatus() == Status.doorMoving || GearList.get(2).getStatus() == Status.up )
+            return Status.doorMoving;
+        else if (GearList.get(0).getStatus() == Status.doorMovingUp || GearList.get(0).getStatus() == Status.down &&
+                GearList.get(1).getStatus() == Status.doorMovingUp || GearList.get(1).getStatus() == Status.down &&
+                GearList.get(2).getStatus() == Status.doorMovingUp || GearList.get(2).getStatus() == Status.down )
+            return Status.doorMoving;
+        else if (GearList.get(0).getStatus() == Status.doorMovingUp || GearList.get(0).getStatus() == Status.up &&
+                GearList.get(1).getStatus() == Status.doorMovingUp || GearList.get(1).getStatus() == Status.up &&
+                GearList.get(2).getStatus() == Status.doorMovingUp || GearList.get(2).getStatus() == Status.up )
+            return Status.doorMoving;
+        else if (GearList.get(0).getStatus() == Status.doorMovingDown || GearList.get(0).getStatus() == Status.up &&
+                GearList.get(1).getStatus() == Status.doorMovingDown || GearList.get(1).getStatus() == Status.up &&
+                GearList.get(2).getStatus() == Status.doorMovingDown || GearList.get(2).getStatus() == Status.up )
+            return Status.doorMoving;
+      /*  else if (GearList.get(0).getStatus() == Status.blocked || GearList.get(0).getStatus() == Status.blocked &&
+                GearList.get(1).getStatus() == Status.up || GearList.get(1).getStatus() == Status.down &&
+                GearList.get(2).getStatus() == Status.up || GearList.get(2).getStatus() == Status.down )
+            return Status.blocked;
+        else if (GearList.get(0).getStatus() == Status.up || GearList.get(0).getStatus() == Status.down &&
+                GearList.get(1).getStatus() == Status.up || GearList.get(1).getStatus() == Status.down &&
+                GearList.get(2).getStatus() == Status.blocked || GearList.get(2).getStatus() == Status.blocked )
+            return Status.blocked;
+        else if (GearList.get(0).getStatus() == Status.up || GearList.get(0).getStatus() == Status.down &&
+                GearList.get(1).getStatus() == Status.blocked || GearList.get(1).getStatus() == Status.blocked &&
+                GearList.get(2).getStatus() == Status.up || GearList.get(2).getStatus() == Status.down )
+            return Status.blocked; */
+        else if (GearList.get(0).getStatus()==Status.blocked || GearList.get(1).getStatus()==Status.blocked || GearList.get(2).getStatus()==Status.blocked)
+            return Status.blocked;
+        else return Status.doorMoving;
 
+
+
+    }
+    /**
+     * Obtention du gear ONE
+     * @return gearOne
+     */
     public Gear getGearOne() {
         return gearOne;
     }
 
+    /**
+     * Obtention du gear Two
+     * @return gearTwo
+     */
     public Gear getGearTwo() {
         return gearTwo;
     }
 
+    /**
+     * Obtention du gear Three
+     * @return gearThree
+     */
     public Gear getGearThree() {
         return gearThree;
     }
 
+    /**
+     * Démarrage des threads. Verification du status global pour pouvoir UP ou DOWN
+     *
+     */
     public void startAllGearThread(){
 
         // On cr�e les Thread de chaque Gear
@@ -91,6 +143,9 @@ public class GearSet extends Observable {
 
     }
 
+    /**
+     * Modification du status général
+     */
     public void setGearSetStatus(Status status){
         this.GearSetStatus = status;
     }
